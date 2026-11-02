@@ -1,5 +1,5 @@
 <title>Elanora Systems</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Montserrat:wght@500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: light, fresh studio page. Soft colour blobs and a particle net in the hero, a product index whose
    panel plays a small animated scene per product, and Ela, a robot guide who walks along as you scroll. */
@@ -12,9 +12,9 @@
   --h: 165;              /* live hue, shifted by the product index */
   --tx: hsl(var(--h) 62% 30%);
   --pop: hsl(var(--h) 62% 38%);
-  --serif: "Playfair Display", Georgia, serif;
-  --sans: "Manrope", system-ui, sans-serif;
-  --label: "Montserrat", system-ui, sans-serif;
+  --serif: "Onest", system-ui, sans-serif;   /* one family, weight and size do the work */
+  --sans: "Onest", system-ui, sans-serif;
+  --label: "Onest", system-ui, sans-serif;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -23,9 +23,9 @@ body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.65 
 a { color: inherit; text-decoration: none; }
 :focus-visible { outline: 2px solid var(--pop); outline-offset: 3px; }
 .wrap { max-width: 1160px; margin-inline: auto; }
-.label { font: 600 12px/1 var(--label); letter-spacing: .28em; text-transform: uppercase; }
-h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; text-wrap: balance; line-height: 1.08; }
-em { font-style: italic; color: var(--tx); transition: color .6s; background: linear-gradient(var(--pop), var(--pop)) 0 96% / 0 3px no-repeat; animation: ul 1.1s 1.3s cubic-bezier(.2, .7, .2, 1) forwards; }
+.label { font: 600 13px/1.2 var(--label); }
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; letter-spacing: -.035em; margin: 0; text-wrap: balance; line-height: 1.03; }
+em { font-style: normal; color: var(--tx); transition: color .6s; background: linear-gradient(var(--pop), var(--pop)) 0 96% / 0 3px no-repeat; animation: ul 1.1s 1.3s cubic-bezier(.2, .7, .2, 1) forwards; }
 @keyframes ul { to { background-size: 100% 3px; } }
 
 #bar { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 30; background: var(--pop); transform: scaleX(0); transform-origin: left; }
@@ -51,7 +51,7 @@ nav .links a.cta { color: #fff; background: var(--ink); padding: 10px 16px; }
 .bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero .wrap { position: relative; z-index: 1; }
 .rule { width: 64px; height: 3px; background: var(--pop); margin-block: 28px; transform-origin: left; animation: grow 1.2s .5s cubic-bezier(.2, .7, .2, 1) both; }
-h1 { font-size: clamp(2.6rem, 7.4vw, 6rem); max-width: 14ch; }
+h1 { font-size: clamp(2.5rem, 6.4vw, 5.2rem); max-width: 15ch; font-weight: 700; }
 h1 .ln { display: block; overflow: hidden; padding-bottom: .1em; }
 h1 .ln > span { display: block; animation: rise 1.1s cubic-bezier(.2, .7, .2, 1) both; }
 h1 .ln:nth-child(2) > span { animation-delay: .12s; } h1 .ln:nth-child(3) > span { animation-delay: .24s; }
@@ -70,7 +70,7 @@ h1 .ln:nth-child(2) > span { animation-delay: .12s; } h1 .ln:nth-child(3) > span
 /* marquee */
 .marquee { border-block: 1px solid var(--line); margin-inline: -20px; overflow: hidden; padding-block: 22px; background: var(--card); }
 .marquee .track { display: flex; width: max-content; animation: slide 38s linear infinite; }
-.marquee span { font: 400 clamp(1.3rem, 3vw, 2rem)/1 var(--serif); font-style: italic; color: var(--mute); padding-inline: 28px; white-space: nowrap; }
+.marquee span { font: 600 clamp(1.3rem, 3vw, 2rem)/1 var(--serif); letter-spacing: -.02em; color: var(--mute); padding-inline: 28px; white-space: nowrap; }
 .marquee span::after { content: "/"; margin-left: 56px; color: var(--pop); font-style: normal; }
 @keyframes slide { to { transform: translateX(-50%); } }
 
@@ -84,8 +84,8 @@ h2 { font-size: clamp(2rem, 4.6vw, 3.6rem); max-width: 18ch; }
 .rows { border-top: 1px solid var(--line); }
 .row { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 16px; width: 100%; text-align: left; background: none; color: var(--mute);
   border: 0; border-bottom: 1px solid var(--line); padding: 26px 0; cursor: pointer; font: inherit; transition: color .3s, padding .3s; }
-.row .nm { font: 400 clamp(1.8rem, 3.6vw, 2.8rem)/1.1 var(--serif); }
-.row .kind { font: 500 11px/1 var(--label); letter-spacing: .22em; text-transform: uppercase; }
+.row .nm { font: 600 clamp(1.8rem, 3.6vw, 2.8rem)/1.1 var(--serif); letter-spacing: -.035em; }
+.row .kind { font: 500 14px/1 var(--label); }
 .row[aria-selected="true"], .row:hover { color: var(--ink); padding-left: 14px; }
 .row[aria-selected="true"] .nm { color: var(--tx); }
 .panel { position: sticky; top: 96px; min-height: 440px; padding: 32px; border: 1px solid var(--line); background: var(--card); overflow: hidden; box-shadow: 0 30px 60px -40px rgba(17, 38, 31, .35); }
@@ -132,7 +132,7 @@ h2 { font-size: clamp(2rem, 4.6vw, 3.6rem); max-width: 18ch; }
 @media (max-width: 860px) { .contact { grid-template-columns: 1fr; gap: 40px; } }
 form { display: grid; gap: 16px; }
 .field { display: grid; gap: 6px; }
-.field label { font: 600 11px/1 var(--label); letter-spacing: .22em; text-transform: uppercase; color: var(--mute); }
+.field label { font: 500 14px/1 var(--label); color: var(--mute); }
 input, textarea { font: inherit; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 12px 0; width: 100%; border-radius: 0; transition: border-color .25s; }
 input:focus, textarea:focus { outline: none; border-color: var(--pop); }
 textarea { min-height: 120px; resize: vertical; }
@@ -145,13 +145,13 @@ footer { margin-top: 140px; border-top: 1px solid var(--line); padding-block: 32
 /* floating product chips, reversed marquee, cursor ring, confetti */
 .orbit { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .chip { position: absolute; left: var(--x); top: var(--y); transform: translate(calc(var(--px, 0) * var(--k) * 1px), calc(var(--py, 0) * var(--k) * 1px)); transition: transform .3s ease-out; }
-.chip b { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 99px; font: 600 12px/1 var(--label); letter-spacing: .14em; text-transform: uppercase;
+.chip b { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 99px; font: 600 14px/1 var(--label);
   box-shadow: 0 18px 30px -20px hsl(var(--c) 60% 30% / .6); animation: float 5s ease-in-out infinite alternate; animation-delay: var(--d); }
 .chip b::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: hsl(var(--c) 75% 50%); }
 @keyframes float { from { transform: translateY(-9px) rotate(-1.5deg); } to { transform: translateY(9px) rotate(1.5deg); } }
 @media (max-width: 960px) { .orbit { display: none; } }
 .marquee.rev .track { animation-direction: reverse; animation-duration: 46s; }
-.marquee.rev span { font: 600 13px/1 var(--label); font-style: normal; letter-spacing: .24em; text-transform: uppercase; color: var(--ink); }
+.marquee.rev span { font: 600 15px/1 var(--label); color: var(--ink); }
 #cur { position: fixed; left: 0; top: 0; width: 28px; height: 28px; border: 1.5px solid var(--pop); border-radius: 50%; z-index: 40; pointer-events: none; transition: scale .2s, background .2s; }
 #cur.big { scale: 1.9; background: hsl(var(--h) 70% 50% / .12); }
 @media (hover: none), (prefers-reduced-motion: reduce) { #cur { display: none; } }
@@ -183,8 +183,8 @@ footer { margin-top: 140px; border-top: 1px solid var(--line); padding-block: 32
 
 <div id="bar"></div>
 <nav>
-  <a href="#top" class="label">Elanora Systems</a>
-  <div class="links label" style="font-size:11px">
+  <a href="#top" class="label" style="font-size:18px;letter-spacing:-.025em">Elanora Systems</a>
+  <div class="links label" style="font-size:14px">
     <a href="#products">Products</a><a href="#build">What we build</a><a class="cta" href="#contact">Contact</a>
   </div>
 </nav>
@@ -200,7 +200,7 @@ footer { margin-top: 140px; border-top: 1px solid var(--line); padding-block: 32
       <span class="ln"><span>software for</span></span>
       <span class="ln"><span>modern businesses.</span></span>
     </h1>
-    <p class="lede">Elanora Systems designs and runs the software that keeps teams moving: waste collection, kitchen operations, food management and fresh produce, built once and used every day.</p>
+    <p class="lede">Elanora Systems designs and runs the software that keeps teams moving: waste collection, restaurant operations, private residence management and online retail, built once and used every day.</p>
     <div class="actions">
       <a class="btn solid" href="#products">See our products <span>→</span></a>
       <a class="btn" href="#contact">Start a project <span>→</span></a>
@@ -248,7 +248,7 @@ footer { margin-top: 140px; border-top: 1px solid var(--line); padding-block: 32
     </div>
   </section>
 
-  <footer><span>© 2026 Elanora Systems</span><span class="label" style="font-size:11px">elanorasystems.com</span></footer>
+  <footer><span>© 2026 Elanora Systems</span><span class="label" style="font-size:14px">elanorasystems.com</span></footer>
 </main>
 
 <div id="cur" aria-hidden="true"></div>
@@ -280,16 +280,16 @@ const A = {
     <circle class="drop" cx="122" cy="6" r="4.5" fill="currentColor"/><circle class="drop" cx="131" cy="6" r="4.5" fill="currentColor" opacity=".6"/><circle class="drop" cx="140" cy="6" r="4.5" fill="currentColor" opacity=".35"/></svg>`,
   plato: `<svg viewBox="0 0 170 110"><line x1="8" y1="96" x2="162" y2="96" stroke="currentColor" opacity=".3"/><line x1="8" y1="62" x2="162" y2="62" stroke="currentColor" opacity=".18" stroke-dasharray="3 5"/>
     <polyline class="draw" points="10,80 40,66 70,74 100,42 130,52 158,26" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle class="veg" cx="158" cy="26" r="6" fill="currentColor"/></svg>`,
-  butler: `<svg viewBox="0 0 170 110"><rect x="44" y="6" width="82" height="98" rx="8" fill="none" stroke="currentColor" stroke-width="3"/>
-    <rect class="ln2" x="58" y="24" width="54" height="6" rx="3" fill="currentColor"/><rect class="ln2" x="58" y="42" width="40" height="6" rx="3" fill="currentColor" opacity=".7"/><rect class="ln2" x="58" y="60" width="48" height="6" rx="3" fill="currentColor" opacity=".5"/><rect class="ln2" x="58" y="82" width="30" height="8" rx="4" fill="currentColor"/></svg>`,
-  def: `<svg viewBox="0 0 170 110"><circle class="veg" cx="40" cy="70" r="20" fill="none" stroke="currentColor" stroke-width="4"/><circle class="veg" cx="85" cy="70" r="20" fill="none" stroke="currentColor" stroke-width="4" style="animation-delay:.4s"/><circle class="veg" cx="130" cy="70" r="20" fill="none" stroke="currentColor" stroke-width="4" style="animation-delay:.8s"/>
-    <g class="blade"><rect x="20" y="10" width="4" height="84" rx="2" fill="currentColor"/><rect x="14" y="4" width="16" height="10" rx="3" fill="currentColor"/></g></svg>`,
+  butler: `<svg viewBox="0 0 170 110"><path d="M20 56 L85 8 L150 56" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="34" y="52" width="102" height="52" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+    <rect x="48" y="66" width="20" height="18" rx="2" fill="currentColor"><animate attributeName="opacity" values=".15;1;.15" dur="3s" repeatCount="indefinite"/></rect><rect x="102" y="66" width="20" height="18" rx="2" fill="currentColor"><animate attributeName="opacity" values=".15;1;.15" dur="3s" begin="1.2s" repeatCount="indefinite"/></rect><rect x="77" y="74" width="16" height="30" rx="2" fill="currentColor" opacity=".5"/></svg>`,
+  def: `<svg viewBox="0 0 170 110"><path d="M65 42 C65 12 105 12 105 42" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="48" y="42" width="74" height="62" rx="6" fill="none" stroke="currentColor" stroke-width="4"/>
+    <circle class="drop" cx="72" cy="0" r="5" fill="currentColor"/><circle class="drop" cx="85" cy="0" r="5" fill="currentColor" opacity=".6"/><circle class="drop" cx="98" cy="0" r="5" fill="currentColor" opacity=".35"/></svg>`,
 };
 const APPS = [
   { name: "Waste2Work", kind: "Waste collection", hue: 165, art: A.w2w, say: "Waste2Work runs collection, buyback centres and attendance.", text: "Runs waste collection end to end, from the buyback centres that receive material to the people who collect it.", tags: ["MRF buyback centres", "PROs", "Employee attendance", "Check-in and check-out"] },
-  { name: "Plato", kind: "Operations", hue: 215, art: A.plato, say: "Plato keeps an eye on the kitchen chillers.", text: "Operations management for kitchens. Staff monitor chiller readings, check in and out, and keep their training records in one place.", tags: ["Chiller monitoring", "Check-in and check-out", "Training records"] },
-  { name: "Butler", kind: "Food management", hue: 32, art: A.butler, say: "Butler handles menus and the invoices that follow.", text: "Manages the food side of the business, from menus to the invoices that follow them.", tags: ["Menu management", "Invoices"] },
-  { name: "Defreeza", kind: "Fresh produce", hue: 95, art: A.def, say: "Defreeza cuts and sells fresh vegetables.", text: "Cut vegetables, prepared and sold through one application.", tags: ["Vegetable cutting", "Selling"] },
+  { name: "Plato", kind: "Restaurant management", hue: 215, art: A.plato, say: "Plato runs the restaurant, chillers included.", text: "Restaurant management software. Teams monitor kitchen chiller readings, check in and out, and keep training records in one place.", tags: ["Chiller monitoring", "Check-in and check-out", "Training records"] },
+  { name: "Butler", kind: "Residence management", hue: 32, art: A.butler, say: "Butler looks after luxury villas and private residences.", text: "Management software for luxury villas and private residences, built around how a household is actually run.", tags: ["Villa management", "Private residences", "Luxury homes"] },
+  { name: "Defreeza", kind: "E-commerce", hue: 95, art: A.def, say: "Defreeza is our e-commerce shopping site.", text: "An e-commerce shopping website where customers browse, order and pay online.", tags: ["Online store", "Orders", "Checkout"] },
 ];
 const $ = (s) => document.querySelector(s);
 const rows = $("#rows"), panel = $("#panel");
