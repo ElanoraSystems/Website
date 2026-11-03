@@ -284,6 +284,7 @@ footer { margin-top: 140px; border-top: 1px solid var(--line); padding-block: 32
         <div class="field"><label for="n">Name</label><input id="n" name="name" autocomplete="name" required></div>
         <div class="field"><label for="e">Email</label><input id="e" name="email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="m">Message</label><textarea id="m" name="message" required></textarea></div>
+        <input id="w" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
         <button class="btn solid" type="submit" style="justify-self:start;cursor:pointer;font:inherit">Send message <span>→</span></button>
         <p id="note" role="status"></p>
       </form>
@@ -455,7 +456,20 @@ document.querySelectorAll(".cols article").forEach((c) => {
   c.addEventListener("pointermove", (e) => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; c.style.transform = `perspective(700px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-6px)`; });
   c.addEventListener("pointerleave", () => { c.style.transform = ""; });
 });
-$("#form").addEventListener("submit", (e) => { e.preventDefault(); $("#note").textContent = "Preview only: the form is not connected to email yet."; });
+const FORM_ENDPOINT = "https://elanora-contact-api.onrender.com/contact"; // paste the Formspree endpoint here, e.g. https://formspree.io/f/xxxxxxxx
+$("#form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const f = e.target, note = $("#note"), name = $("#n").value.trim(), email = $("#e").value.trim(), message = $("#m").value.trim();
+  if (!name || !/\S+@\S+\.\S+/.test(email) || !message) { note.textContent = "Please enter your name, a valid email address and a message."; return; }
+  if ($("#w").value) return; // spam trap: real visitors never see this field
+  if (!FORM_ENDPOINT) { note.textContent = "Preview only: the form is not connected to email yet."; return; }
+  note.textContent = "Sending...";
+  try {
+    const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ name, email, message }) });
+    if (!r.ok) throw new Error(r.status);
+    f.reset(); note.textContent = "Thank you. We have received your message and will respond shortly.";
+  } catch { note.textContent = "Sorry, your message could not be sent. Please try again."; }
+});
 </script>
 
 </body>

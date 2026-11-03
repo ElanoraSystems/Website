@@ -6,3 +6,25 @@ services:
     domains:
       - elanorasystems.com
       - www.elanorasystems.com
+
+  - type: web
+    runtime: node
+    name: elanora-contact-api
+    rootDir: api
+    plan: free
+    buildCommand: echo "no build step"
+    startCommand: node server.js
+    healthCheckPath: /
+    envVars:
+      - key: ALLOWED_ORIGIN
+        value: https://elanorasystems.com,https://www.elanorasystems.com
+      - key: TENANT_ID
+        sync: false
+      - key: CLIENT_ID
+        sync: false
+      - key: CLIENT_SECRET
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      - key: MAIL_TO
+        sync: false
