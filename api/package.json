@@ -2,7 +2,14 @@
   "name": "elanora-contact-api",
   "version": "1.0.0",
   "private": true,
-  "description": "Contact form backend that emails through Microsoft Graph",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=18" }
+  "description": "Contact form backend that emails over SMTP (Outlook / Microsoft 365)",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "nodemailer": "^10.3.1"
+  }
 }

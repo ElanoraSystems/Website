@@ -1,13 +1,19 @@
-// Contact form backend: receives the website form and emails it through Microsoft Graph.
-// No dependencies; needs Node 18+ for the built-in fetch.
+// Contact form backend: receives the website form and emails it over SMTP (Outlook / Microsoft 365).
+// ponytail: SMTP with an app password; switch to Microsoft Graph if the mailbox stops allowing SMTP sign-in.
 const http = require("http");
+const nodemailer = require("nodemailer");
 
 const {
-  TENANT_ID, CLIENT_ID, CLIENT_SECRET, MAIL_FROM, MAIL_TO, DRY_RUN,
+  SMTP_HOST = "smtp.office365.com", SMTP_USER, SMTP_PASS, MAIL_TO, DRY_RUN,
   ALLOWED_ORIGIN = "https://elanorasystems.com,https://www.elanorasystems.com",
   PORT = 10000,
 } = process.env;
 const ORIGINS = ALLOWED_ORIGIN.split(",").map((o) => o.trim());
+
+const transport = nodemailer.createTransport({
+  host: SMTP_HOST, port: 587, secure: false, requireTLS: true,
+  auth: { user: SMTP_USER, pass: SMTP_PASS },
+});
 
 // ponytail: in-memory limit per IP, resets on restart; move to a shared store if abuse appears
 const hits = new Map();
@@ -17,38 +23,17 @@ function limited(ip) {
   return recent.length > 5;
 }
 
-let cached = { value: "", exp: 0 };
-async function token() {
-  if (cached.value && Date.now() < cached.exp) return cached.value;
-  const r = await fetch(`https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/token`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ client_id: CLIENT_ID, client_secret: CLIENT_SECRET, scope: "https://graph.microsoft.com/.default", grant_type: "client_credentials" }),
-  });
-  if (!r.ok) throw new Error(`token ${r.status}`);
-  const j = await r.json();
-  cached = { value: j.access_token, exp: Date.now() + (j.expires_in - 120) * 1000 };
-  return cached.value;
-}
-
 async function sendMail({ name, email, message }) {
   const clean = (s) => s.replace(/[\r\n]+/g, " ");
-  const payload = {
-    message: {
-      subject: `Website enquiry from ${clean(name)}`,
-      body: { contentType: "Text", content: `Name: ${clean(name)}\nEmail: ${clean(email)}\n\n${message}` },
-      toRecipients: [{ emailAddress: { address: MAIL_TO } }],
-      replyTo: [{ emailAddress: { address: email, name: clean(name) } }],
-    },
-    saveToSentItems: false,
+  const mail = {
+    from: SMTP_USER,
+    to: MAIL_TO || SMTP_USER,
+    replyTo: { name: clean(name), address: email },
+    subject: `Website enquiry from ${clean(name)}`,
+    text: `Name: ${clean(name)}\nEmail: ${clean(email)}\n\n${message}`,
   };
-  if (DRY_RUN) { console.log("DRY_RUN mail:", JSON.stringify(payload)); return; }
-  const r = await fetch(`https://graph.microsoft.com/v1.0/users/${encodeURIComponent(MAIL_FROM)}/sendMail`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${await token()}`, "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-  if (!r.ok) throw new Error(`sendMail ${r.status} ${await r.text()}`);
+  if (DRY_RUN) { console.log("DRY_RUN mail:", JSON.stringify(mail)); return; }
+  await transport.sendMail(mail);
 }
 
 function reply(res, code, origin, body = {}) {
